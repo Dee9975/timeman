@@ -1,0 +1,16 @@
+*timeman.txt*    Time management plugin for Neovim
+
+==============================================================================
+INTRODUCTION                                                    *timeman*
+
+timeman is a time management plugin for Neovim.
+
+==============================================================================
+SETUP                                                     *timeman-setup*
+
+>lua
+    require("timeman").setup({})
+<
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
