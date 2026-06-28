@@ -1,6 +1,8 @@
 local M = {}
 
-M.defaults = {}
+M.defaults = {
+  tasks_dir = nil, -- nil means use cwd at setup time
+}
 
 M.options = {}
 
