@@ -2,13 +2,13 @@
 
 A lightweight, local-first time management and task-tracking plugin for Neovim.
 
-`timeman` allows you to manage tasks directly within Neovim. Tasks are stored as plain Markdown files organized by date on your filesystem—no databases, external accounts, or cloud synchronization required.
+`timeman` allows you to manage tasks directly within Neovim. Tasks are stored as plain-text files organized by date on your filesystem—no databases, external accounts, or cloud synchronization required.
 
 ---
 
 ## Features
 
-- **Local-first Markdown Storage**: Tasks are saved as flat `.md` files in a `.timeman` folder under your project root or a configured global directory.
+- **Local-first Plain File Storage**: Tasks are saved as flat plain-text files in a `.timeman` folder under your project root or a configured global directory.
 - **Interactive Floating Window (`:TimemanList`)**: A centered floating window grouped by task status (In progress, Todo, Done) with quick keybindings to navigate and transition statuses.
 - **Telescope Picker (`:TimemanTasks`)**: A custom Telescope interface to search and filter through all tasks by name, status, or description.
 - **Zero-Config Setup**: Works out of the box with reasonable defaults.
@@ -19,11 +19,16 @@ A lightweight, local-first time management and task-tracking plugin for Neovim.
 
 Install the plugin using your package manager:
 
+### vim package
+```lua
+vim.pack.add()
+```
+
 ### lazy.nvim
 
 ```lua
 {
-  "nvim-timeman/timeman.nvim",
+  "Dee9975/timeman.nvim",
   dependencies = {
     "nvim-telescope/telescope.nvim",
   },
@@ -57,13 +62,13 @@ Tasks are plain-text files grouped by date:
 <tasks_dir>/
   .timeman/
     27-06-2026/
-      Hello.md
-      New-task.md
+      Hello
+      New-task
     28-06-2026/
-      another-task.md
+      another-task
 ```
 
-Each task file consists of standard Markdown with YAML-like frontmatter:
+Each task file consists of plain text with YAML-like frontmatter:
 
 ```markdown
 ---
@@ -76,7 +81,7 @@ Optional detailed task description goes here.
 ```
 
 - **id**: The absolute file path on disk.
-- **name**: Derived from the filename (excluding the `.md` extension).
+- **name**: Derived from the filename.
 - **created_at**: Derived from the date folder name (`DD-MM-YYYY`).
 - **total_time**: Saved in seconds.
 - **last_changed**: (Optional) Unix timestamp recorded when the task is placed `"in progress"`. Used to calculate elapsed time dynamically and statelessly.

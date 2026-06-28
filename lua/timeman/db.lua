@@ -116,7 +116,7 @@ function M.add_task(name, description)
   local date = today()
   local dir = root .. "/" .. date
   vim.fn.mkdir(dir, "p")
-  local path = dir .. "/" .. sanitize(name) .. ".md"
+  local path = dir .. "/" .. sanitize(name)
   write_file(path, { status = "todo", total_time = 0, description = description })
   return path
 end
@@ -127,10 +127,12 @@ function M.get_tasks()
     if vim.fn.isdirectory(dir) == 1 then
       local date = vim.fn.fnamemodify(dir, ":t")
       if date:match("^%d%d%-%d%d%-%d%d%d%d$") then
-        for _, file in ipairs(vim.fn.glob(dir .. "/*.md", false, true)) do
-          local name = vim.fn.fnamemodify(file, ":t:r")
-          local task = parse_file(file, name, date)
-          if task then table.insert(result, task) end
+        for _, file in ipairs(vim.fn.glob(dir .. "/*", false, true)) do
+          if vim.fn.isdirectory(file) == 0 then
+            local name = vim.fn.fnamemodify(file, ":t")
+            local task = parse_file(file, name, date)
+            if task then table.insert(result, task) end
+          end
         end
       end
     end
@@ -140,7 +142,7 @@ end
 
 function M.get_task(id)
   local date = vim.fn.fnamemodify(vim.fn.fnamemodify(id, ":h"), ":t")
-  local name = vim.fn.fnamemodify(id, ":t:r")
+  local name = vim.fn.fnamemodify(id, ":t")
   return parse_file(id, name, date)
 end
 
