@@ -19,9 +19,10 @@ A lightweight, local-first time management and task-tracking plugin for Neovim.
 
 Install the plugin using your package manager:
 
-### vim package
+### vim pack 
+
 ```lua
-vim.pack.add()
+vim.pack.add({"https://github.com/Dee9975/timeman"})
 ```
 
 ### lazy.nvim
