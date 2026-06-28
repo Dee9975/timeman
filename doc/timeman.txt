@@ -1,16 +1,71 @@
-*timeman.txt*    Time management plugin for Neovim
+*timeman.txt*    Time management and task tracking for Neovim
 
 ==============================================================================
 INTRODUCTION                                                    *timeman*
 
-timeman is a time management plugin for Neovim.
+timeman is a lightweight, local-first time management and task tracking plugin
+for Neovim. Tasks are stored as flat, extensionless plain-text files organized
+by date in your filesystem under `.timeman/`.
 
 ==============================================================================
-SETUP                                                     *timeman-setup*
+SETUP & CONFIGURATION                                           *timeman-setup*
 
+To initialize the plugin, add the following to your configuration:
 >lua
-    require("timeman").setup({})
+    require("timeman").setup({
+      tasks_dir = vim.fn.expand("~/my-tasks-folder"), -- optional
+    })
 <
+On setup, timeman will automatically create a `.timeman/` directory under
+your configured path (or your current working directory if not specified).
+
+==============================================================================
+COMMANDS                                                     *timeman-commands*
+
+The following user commands are available:
+
+:TimemanCreateTask {name}                        *:TimemanCreateTask*
+                Create a new task with status `todo` and `total_time` `0` for
+                today.
+
+:TimemanList                                             *:TimemanList*
+                Open the interactive center-aligned floating task browser.
+
+:TimemanTasks                                           *:TimemanTasks*
+                Browse, fuzzy-search, and select tasks using Telescope.
+
+==============================================================================
+FLOATING WINDOW CONTROLS                                    *timeman-controls*
+
+When inside the `:TimemanList` floating window, the following keymaps are
+available:
+
+Keymap          Action ~
+j / <Down>      Move cursor to the next task line.
+k / <Up>        Move cursor to the previous task line.
+p               Set the selected task's status to In progress.
+d               Delete the selected task.
+t               Set the selected task's status to Todo.
+n               Create a new task (opens a name input prompt).
+<CR> / <S-CR>   Set the selected task's status to Done.
+q / <Esc>       Close the floating window.
+
+==============================================================================
+STATELESS TIME TRACKING                                     *timeman-tracking*
+
+Time tracking is fully stateless and file-based. 
+
+When a task is marked In progress, timeman records the start timestamp as
+`last_changed` in the task's frontmatter. When viewing the task list or
+Telescope, the elapsed time since `last_changed` is dynamically calculated and
+added to the displayed total time in real-time.
+
+When transitioning a task's status from In progress to Todo or Done, timeman
+calculates the final difference, adds it to `total_time` permanently on disk,
+and clears the `last_changed` key.
+
+This ensures time tracking survives Neovim restarts, crashes, or multiple
+concurrent sessions.
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:
